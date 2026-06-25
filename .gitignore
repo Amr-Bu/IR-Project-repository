@@ -1,0 +1,19 @@
+# البيئة الوهمية والكاش
+.venv/
+venv/
+__pycache__/
+*.pyc
+.vscode/
+
+# قواعد البيانات وملفات الـ FAISS والـ Embeddings (السبب الأساسي للمشكلة)
+database/*.db
+data/*.npy
+data/*.index
+indexes/*.npz
+
+# أي ملفات مضغوطة أو احتياطية
+*.zip
+*.tar.gz
+# استثناء ملفات الـ Pickle الناتجة عن المعالجة والـ Indexes
+data/*.pkl
+indexes/*.pkl
