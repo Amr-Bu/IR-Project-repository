@@ -68,7 +68,7 @@ def search_tfidf(query: str):
             {
                 "doc_id": document[0],
                 "title": document[1],
-                "text": document[2][:300] + "...",
+                "text": document[2][:100] + "...",
                 "stance": document[3],
                 "score": float(score)
             }
@@ -100,7 +100,7 @@ def search_bm25(query: str):
             {
                 "doc_id": document[0],
                 "title": document[1],
-                "text": document[2][:300] + "...",
+                "text": document[2][:100] + "...",
                 "stance": document[3],
                 "score": float(score)
             }
@@ -125,7 +125,7 @@ def search_semantic(query: str):
             {
                 "doc_id": document[0],
                 "title": document[1],
-                "text": document[2][:300] + "...",
+                "text": document[2][:100] + "...",
                 "stance": document[3],
                 "score": float(score)
             }
@@ -150,7 +150,7 @@ def search_hybrid(query: str):
             {
                 "doc_id": document[0],
                 "title": document[1],
-                "text": document[2][:300] + "...",
+                "text": document[2][:100] + "...",
                 "stance": document[3],
                 "score": float(score)
             }
