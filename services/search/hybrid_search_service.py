@@ -13,6 +13,10 @@ from services.database.db_service import (
     DatabaseService
 )
 
+from services.query_refinement.query_refinement_service import (
+    QueryRefinementService
+)
+
 
 class HybridSearchService:
 
@@ -26,6 +30,10 @@ class HybridSearchService:
 
         self.db = (
             DatabaseService()
+        )
+
+        self.query_refinement = (
+            QueryRefinementService()
         )
 
         self.index = faiss.read_index(
@@ -45,12 +53,23 @@ class HybridSearchService:
         self,
         query,
         top_k=10,
-        alpha=0.7
+        alpha=0.7,
+        refine=False
     ):
+
+        bm25_query = query
+
+        if refine:
+
+            bm25_query = (
+                self.query_refinement.expand_query(
+                    query
+                )
+            )
 
         bm25_results = (
             self.bm25.search(
-                query,
+                bm25_query,
                 top_k=100
             )
         )
@@ -63,6 +82,8 @@ class HybridSearchService:
                 doc_id
             ] = score
 
+        # ملاحظة: فرع الـ Embedding بيستخدم الاستعلام الأصلي دايماً
+        # (بدون refine) لأن النموذج بيلتقط التشابه الدلالي ضمنياً
         query_embedding = (
             self.embedding_service.encode(
                 [query]

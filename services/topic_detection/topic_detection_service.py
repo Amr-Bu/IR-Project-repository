@@ -8,27 +8,16 @@ from services.embedding.embedding_service import (
 class TopicDetectionService:
 
     TOPICS = {
-
-        0: "Education",
-
-        1: "Politics",
-
-        2: "Technology",
-
-        3: "Health",
-
-        4: "Environment",
-
-        5: "Society",
-
-        6: "Economy",
-
-        7: "Sports",
-
-        8: "Science",
-
-        9: "General"
-
+        0: "Philosophy & Theology",
+        1: "Human Rights & Society",
+        2: "Entertainment & Pop Culture",
+        3: "Society & Debate Culture",
+        4: "Religion, Science & Fringe Topics",
+        5: "Education",
+        6: "Religion",
+        7: "Bioethics & Ethics",
+        8: "General / Mixed Topics",
+        9: "General & Miscellaneous"
     }
 
     def __init__(self):
@@ -39,6 +28,15 @@ class TopicDetectionService:
         ) as f:
 
             self.model = pickle.load(
+                f
+            )
+
+        with open(
+            "data/document_topic_map.pkl",
+            "rb"
+        ) as f:
+
+            self.document_topics = pickle.load(
                 f
             )
 
@@ -75,3 +73,20 @@ class TopicDetectionService:
             )
 
         }
+
+    def get_document_topic(
+        self,
+        doc_id
+    ):
+
+        cluster = self.document_topics.get(
+            doc_id
+        )
+
+        if cluster is None:
+            return "Unknown"
+
+        return self.TOPICS.get(
+            cluster,
+            "Unknown"
+        )

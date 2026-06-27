@@ -2,6 +2,10 @@ import pickle
 
 from services.preprocessing.preprocessor import Preprocessor
 
+from services.query_refinement.query_refinement_service import (
+    QueryRefinementService
+)
+
 
 class BM25Retriever:
 
@@ -23,11 +27,22 @@ class BM25Retriever:
 
         self.preprocessor = Preprocessor()
 
+        self.query_refinement = (
+            QueryRefinementService()
+        )
+
     def search(
         self,
         query,
-        top_k=10
+        top_k=10,
+        refine=False
     ):
+
+        if refine:
+
+            query = self.query_refinement.expand_query(
+                query
+            )
 
         query = self.preprocessor.preprocess(
             query
